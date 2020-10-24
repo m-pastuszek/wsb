@@ -23,6 +23,18 @@
   <div class="login-logo">
     <a href="index2.html"><b>Admin</b>LTE</a>
   </div>
+
+  <?php
+  if ($_GET['register'] == "success") {
+    echo <<< ERROR
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-check"></i> Sukces!</h5>
+          Konto zostało utworzone pomyślnie!
+      </div>
+ERROR;
+  }
+  ?>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">

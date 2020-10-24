@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,10 +28,23 @@
     <a href="../../index2.html"><b>Admin</b>LTE</a>
   </div>
 
+    <?php
+    if (isset($_SESSION['error'])) {
+      $error = $_SESSION['error'];
+      echo <<< ERROR
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-ban"></i> Błąd!</h5>
+          $error
+      </div>
+ERROR;
+      unset($_SESSION['error']);
+    }
+    ?>
+
   <div class="card">
     <div class="card-body register-card-body">
       <p class="login-box-msg">Zarejestruj się w serwisie</p>
-
       <form action="../scripts/add_user.php" method="post">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Imię" name="firstname">
