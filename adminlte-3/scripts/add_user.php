@@ -36,20 +36,26 @@ if (!empty($_POST['firstname']) && !empty($_POST['surname']) && !empty($_POST['e
   print_r($_POST);
   echo '</pre>';
 
-  $firstname = $_POST['firstname'];
-  $surname = $_POST['surname'];
-  $password = $_POST['password'];
-  $email = $_POST['email'];
-  $city = $_POST['city'];
-  $birthday = $_POST['birthday'];
+  $firstname  = trim($_POST['firstname']);
+  $surname    = trim($_POST['surname']);
+  $password   = trim($_POST['password']);
+  $email      = trim($_POST['email']);
+  $city       = trim($_POST['city']);
+  $birthday   = trim($_POST['birthday']);
 
-  echo $firstname, $surname, $password, $email, $city, $birthday;
+//  echo $firstname, $surname, $password, $email, $city, $birthday;
+
+  // szyfrowanie hasła za pomocą ARGON2ID
+
+
   $sql = "INSERT INTO `users` (`firstname`, `surname`, `email`, `password`, `city_id`, `birthday`) VALUES (?, ?, ?, ?, ?, ?)";
 
   $stmt = $conn->prepare($sql);
+  $password = password_hash($password, PASSWORD_ARGON2ID);
   $stmt->bind_param("ssssss", $firstname, $surname, $email, $password, $city, $birthday);
 
   if ($stmt->execute()) {
+    $_SESSION['error'] = "Konto użytkownika $firstname zostało utworzone pomyślnie!";
     header('location: ../index.php?register=success');
   } else {
     header('location: ../pages/register.php');

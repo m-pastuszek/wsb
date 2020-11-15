@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,14 +28,23 @@
   </div>
 
   <?php
-  if ($_GET['register'] == "success") {
+  if (isset($_GET['register']) || isset($_SESSION['error'])) {
+    $error = $_SESSION['error'];
+    if (isset($_GET['register'])) {
+      $alertClass = "success";
+      $alertTitle = "Gratulacje!";
+    } else {
+      $alertClass = "danger";
+      $alertTitle = "Oh nie!";
+    }
     echo <<< ERROR
-      <div class="alert alert-success alert-dismissible">
+      <div class="alert alert-$alertClass alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h5><i class="icon fas fa-check"></i> Sukces!</h5>
-          Konto zostało utworzone pomyślnie!
+        <h5><i class="icon fas fa-check"></i> $alertTitle</h5>
+          $error
       </div>
 ERROR;
+    unset($_SESSION['error']);
   }
   ?>
   <!-- /.login-logo -->
@@ -40,9 +52,9 @@ ERROR;
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="index3.html" method="post">
+      <form action="./scripts/login.php" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email">
+          <input type="email" class="form-control" name="email" placeholder="Email">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -50,7 +62,7 @@ ERROR;
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" name="password" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
